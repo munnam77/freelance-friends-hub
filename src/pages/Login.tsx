@@ -5,8 +5,11 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Github } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Login = () => {
+  const { t } = useLanguage();
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
@@ -15,21 +18,21 @@ const Login = () => {
         <div className="max-w-md mx-auto">
           <Card>
             <CardHeader className="space-y-1">
-              <CardTitle className="text-2xl text-center">ログイン</CardTitle>
+              <CardTitle className="text-2xl text-center">{t('login.title')}</CardTitle>
               <CardDescription className="text-center">
-                アカウントにログインして、フリーランス案件を見つけましょう
+                {t('login.description')}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">メールアドレス</Label>
+                <Label htmlFor="email">{t('login.email')}</Label>
                 <Input id="email" type="email" placeholder="name@example.com" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password">パスワード</Label>
+                <Label htmlFor="password">{t('login.password')}</Label>
                 <Input id="password" type="password" />
               </div>
-              <Button className="w-full">ログイン</Button>
+              <Button className="w-full">{t('login.submit')}</Button>
               
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
@@ -37,20 +40,20 @@ const Login = () => {
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
                   <span className="bg-card px-2 text-muted-foreground">
-                    または
+                    {t('login.or')}
                   </span>
                 </div>
               </div>
               
               <Button variant="outline" className="w-full gap-2">
                 <Github className="w-4 h-4" />
-                GitHubでログイン
+                {t('login.github')}
               </Button>
               
               <div className="text-center text-sm">
-                アカウントをお持ちでない方は{" "}
+                {t('login.noAccount')}{" "}
                 <Link to="/register" className="text-primary hover:underline">
-                  新規登録
+                  {t('login.register')}
                 </Link>
               </div>
             </CardContent>
