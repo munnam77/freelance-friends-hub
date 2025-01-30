@@ -2,7 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { ArrowRight, Clock, Building2, Yen } from "lucide-react";
+import { ArrowRight, Clock, Building2, JapaneseYen } from "lucide-react";
 
 const jobs = [
   {
@@ -72,7 +72,7 @@ export const FeaturedJobs = () => {
                     <Badge variant="secondary">{job.category}</Badge>
                   </div>
                   <Badge variant="outline" className="bg-primary/5 flex items-center gap-1">
-                    <Yen className="w-3 h-3" />
+                    <JapaneseYen className="w-3 h-3" />
                     {job.budget}
                   </Badge>
                 </div>
