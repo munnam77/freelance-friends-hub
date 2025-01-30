@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Code2, Menu } from "lucide-react";
+import { Code2, Menu, Globe } from "lucide-react";
 
 export const Navbar = () => {
   return (
@@ -13,16 +13,19 @@ export const Navbar = () => {
         
         <div className="hidden md:flex items-center gap-6">
           <Link to="/jobs" className="text-gray-600 hover:text-primary transition-colors">
-            Browse Jobs
+            案件を探す
           </Link>
           <Link to="/freelancers" className="text-gray-600 hover:text-primary transition-colors">
-            Find Talent
+            フリーランスを探す
           </Link>
           <Button variant="outline" asChild className="animate-fade-in">
-            <Link to="/post-job">Post a Job</Link>
+            <Link to="/post-job">案件を掲載</Link>
           </Button>
           <Button asChild className="animate-fade-in">
-            <Link to="/login">Login</Link>
+            <Link to="/login">ログイン</Link>
+          </Button>
+          <Button variant="ghost" size="icon">
+            <Globe className="w-5 h-5" />
           </Button>
         </div>
         
