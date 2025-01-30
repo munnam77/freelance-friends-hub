@@ -1,25 +1,34 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { Code2, Menu } from "lucide-react";
 
 export const Navbar = () => {
   return (
-    <nav className="border-b bg-white">
+    <nav className="border-b bg-white/75 backdrop-blur-md sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <Link to="/" className="text-2xl font-bold text-primary">
-          FreeLance
+        <Link to="/" className="text-2xl font-bold text-primary flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <Code2 className="w-8 h-8" />
+          DevHub
         </Link>
         
-        <div className="flex items-center gap-4">
-          <Link to="/jobs" className="text-gray-600 hover:text-primary">
+        <div className="hidden md:flex items-center gap-6">
+          <Link to="/jobs" className="text-gray-600 hover:text-primary transition-colors">
             Browse Jobs
           </Link>
-          <Button variant="outline" asChild>
+          <Link to="/freelancers" className="text-gray-600 hover:text-primary transition-colors">
+            Find Talent
+          </Link>
+          <Button variant="outline" asChild className="animate-fade-in">
             <Link to="/post-job">Post a Job</Link>
           </Button>
-          <Button asChild>
+          <Button asChild className="animate-fade-in">
             <Link to="/login">Login</Link>
           </Button>
         </div>
+        
+        <Button variant="ghost" size="icon" className="md:hidden">
+          <Menu className="w-5 h-5" />
+        </Button>
       </div>
     </nav>
   );

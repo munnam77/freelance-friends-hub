@@ -7,9 +7,11 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
-      <Hero />
-      <HowItWorks />
-      <FeaturedJobs />
+      <main>
+        <Hero />
+        <HowItWorks />
+        <FeaturedJobs />
+      </main>
     </div>
   );
 };
