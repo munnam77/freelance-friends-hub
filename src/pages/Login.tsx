@@ -7,22 +7,47 @@ import { Github } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
+const loginSchema = z.object({
+  email: z.string().email({
+    message: "有効なメールアドレスを入力してください",
+  }),
+  password: z.string().min(8, {
+    message: "パスワードは8文字以上である必要があります",
+  }),
+});
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
   const { t } = useLanguage();
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = async (values: z.infer<typeof loginSchema>) => {
     setIsLoading(true);
 
     try {
       // TODO: Implement actual authentication logic here
-      console.log("Logging in with:", { email, password });
+      console.log("Logging in with:", values);
       
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -59,54 +84,62 @@ const Login = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleLogin} className="space-y-4">
-                <div className="space-y-2">
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder={t('login.email')}
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>メールアドレス</FormLabel>
+                        <FormControl>
+                          <Input placeholder="name@example.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
-                <div className="space-y-2">
-                  <Input
-                    id="password"
-                    type="password"
-                    placeholder={t('login.password')}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>パスワード</FormLabel>
+                        <FormControl>
+                          <Input type="password" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
-                <Button className="w-full" type="submit" disabled={isLoading}>
-                  {isLoading ? "ログイン中..." : t('login.submit')}
-                </Button>
+                  <Button className="w-full" type="submit" disabled={isLoading}>
+                    {isLoading ? "ログイン中..." : t('login.submit')}
+                  </Button>
 
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t" />
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                      <span className="w-full border-t" />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-card px-2 text-muted-foreground">
+                        {t('login.or')}
+                      </span>
+                    </div>
                   </div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-card px-2 text-muted-foreground">
-                      {t('login.or')}
-                    </span>
+
+                  <Button variant="outline" className="w-full gap-2" type="button">
+                    <Github className="w-4 h-4" />
+                    {t('login.github')}
+                  </Button>
+
+                  <div className="text-center text-sm">
+                    {t('login.noAccount')}{" "}
+                    <Link to="/register" className="text-primary hover:underline">
+                      {t('login.register')}
+                    </Link>
                   </div>
-                </div>
-
-                <Button variant="outline" className="w-full gap-2" type="button">
-                  <Github className="w-4 h-4" />
-                  {t('login.github')}
-                </Button>
-
-                <div className="text-center text-sm">
-                  {t('login.noAccount')}{" "}
-                  <Link to="/register" className="text-primary hover:underline">
-                    {t('login.register')}
-                  </Link>
-                </div>
-              </form>
+                </form>
+              </Form>
             </CardContent>
           </Card>
         </div>
