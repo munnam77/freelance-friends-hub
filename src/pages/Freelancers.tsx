@@ -1,90 +1,111 @@
 import { Navbar } from "@/components/Navbar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { JapaneseYen, Search, Star } from "lucide-react";
-
-const freelancers = [
-  {
-    id: 1,
-    name: "田中 太郎",
-    title: "フルスタックエンジニア",
-    rating: 4.9,
-    hourlyRate: 8000,
-    skills: ["React", "Node.js", "TypeScript", "Python"],
-    description: "10年以上の経験を持つフルスタックエンジニアです。",
-  },
-  {
-    id: 2,
-    name: "佐藤 花子",
-    title: "UIデザイナー",
-    rating: 4.8,
-    hourlyRate: 7000,
-    skills: ["Figma", "Adobe XD", "UI/UX", "Webデザイン"],
-    description: "使いやすいインターフェースの設計が得意です。",
-  },
-  // Add more freelancers as needed
-];
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
+import { Star, MapPin, Code2, Briefcase } from "lucide-react";
 
 const Freelancers = () => {
+  // This would later be fetched from an API/database
+  const freelancers = [
+    {
+      id: 1,
+      name: "田中 健一",
+      title: "シニアフルスタックエンジニア",
+      rating: 4.9,
+      location: "東京",
+      hourlyRate: "¥15,000",
+      skills: ["React", "Node.js", "TypeScript", "AWS"],
+      completedProjects: 45,
+      yearsOfExperience: 8,
+      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
+    },
+    {
+      id: 2,
+      name: "鈴木 美咲",
+      title: "UIデザイナー & フロントエンド開発者",
+      rating: 4.8,
+      location: "大阪",
+      hourlyRate: "¥12,000",
+      skills: ["React", "Figma", "TailwindCSS", "Next.js"],
+      completedProjects: 32,
+      yearsOfExperience: 5,
+      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80"
+    },
+    {
+      id: 3,
+      name: "佐藤 隆",
+      title: "バックエンドエンジニア",
+      rating: 4.7,
+      location: "福岡",
+      hourlyRate: "¥13,000",
+      skills: ["Python", "Django", "PostgreSQL", "Docker"],
+      completedProjects: 28,
+      yearsOfExperience: 6,
+      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e"
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       <main className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-4">フリーランス一覧</h1>
-          <div className="flex gap-4">
-            <Input
-              placeholder="スキル、経験などで検索"
-              className="max-w-md"
-              type="search"
-            />
-            <Button>
-              <Search className="mr-2 h-4 w-4" />
-              検索
-            </Button>
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">フリーランスエンジニア</h1>
+            <p className="text-gray-600">トップクラスのフリーランスエンジニアを見つけましょう</p>
           </div>
+          <Button asChild>
+            <Link to="/register">フリーランスとして登録</Link>
+          </Button>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {freelancers.map((freelancer) => (
-            <Card key={freelancer.id}>
-              <CardHeader>
-                <CardTitle className="flex justify-between items-start">
-                  <div>
-                    <h3 className="text-xl font-semibold">{freelancer.name}</h3>
-                    <p className="text-sm text-gray-500">{freelancer.title}</p>
-                  </div>
-                  <div className="flex items-center">
-                    <Star className="h-4 w-4 text-yellow-400 mr-1" />
-                    <span>{freelancer.rating}</span>
-                  </div>
-                </CardTitle>
+            <Card key={freelancer.id} className="hover:shadow-lg transition-shadow">
+              <CardHeader className="flex flex-row items-center gap-4">
+                <img
+                  src={freelancer.avatar}
+                  alt={freelancer.name}
+                  className="w-16 h-16 rounded-full object-cover"
+                />
+                <div>
+                  <CardTitle className="text-lg">{freelancer.name}</CardTitle>
+                  <p className="text-sm text-gray-600">{freelancer.title}</p>
+                </div>
               </CardHeader>
               <CardContent>
-                <div className="mb-4">
-                  <p className="text-gray-600">{freelancer.description}</p>
-                </div>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {freelancer.skills.map((skill) => (
-                    <span
-                      key={skill}
-                      className="px-2 py-1 bg-gray-100 rounded-full text-sm"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center">
-                    <JapaneseYen className="h-4 w-4 mr-1" />
-                    <span className="font-semibold">
-                      {freelancer.hourlyRate.toLocaleString()}/時
-                    </span>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <Star className="w-4 h-4 text-yellow-400" />
+                    <span>{freelancer.rating}</span>
                   </div>
-                  <Button asChild>
-                    <a href={`/freelancers/${freelancer.id}`}>詳細を見る</a>
-                  </Button>
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <MapPin className="w-4 h-4" />
+                    <span>{freelancer.location}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <Code2 className="w-4 h-4" />
+                    <div className="flex flex-wrap gap-1">
+                      {freelancer.skills.map((skill) => (
+                        <Badge key={skill} variant="secondary" className="text-xs">
+                          {skill}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <Briefcase className="w-4 h-4" />
+                    <span>{freelancer.completedProjects}件のプロジェクト完了</span>
+                  </div>
+                  <div className="mt-4 flex justify-between items-center">
+                    <span className="font-semibold text-lg">{freelancer.hourlyRate}/時</span>
+                    <Button asChild variant="outline">
+                      <Link to={`/freelancers/${freelancer.id}`}>
+                        プロフィールを見る
+                      </Link>
+                    </Button>
+                  </div>
                 </div>
               </CardContent>
             </Card>
