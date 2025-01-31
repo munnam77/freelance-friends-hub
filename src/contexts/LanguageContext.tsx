@@ -2,52 +2,48 @@ import React, { createContext, useContext, useState } from 'react';
 
 type Language = 'en' | 'ja';
 
+interface Translations {
+  [key: string]: {
+    [key: string]: string;
+  };
+}
+
+const translations: Translations = {
+  en: {
+    'nav.jobs': 'Jobs',
+    'nav.freelancers': 'Freelancers',
+    'nav.postJob': 'Post a Job',
+    'nav.login': 'Login',
+    'featuredJobs.title': 'Featured Jobs',
+    'featuredJobs.description': 'Discover the latest opportunities from top companies',
+    'featuredJobs.viewDetails': 'View Details',
+    'featuredJobs.viewAll': 'View All Jobs',
+  },
+  ja: {
+    'nav.jobs': '求人情報',
+    'nav.freelancers': 'フリーランス',
+    'nav.postJob': '求人を掲載',
+    'nav.login': 'ログイン',
+    'featuredJobs.title': '注目の求人',
+    'featuredJobs.description': 'トップ企業の最新の機会を見つけましょう',
+    'featuredJobs.viewDetails': '詳細を見る',
+    'featuredJobs.viewAll': 'すべての求人を見る',
+  },
+};
+
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
   t: (key: string) => string;
 }
 
-const translations = {
-  en: {
-    'nav.jobs': 'Find Jobs',
-    'nav.freelancers': 'Find Freelancers',
-    'nav.postJob': 'Post a Job',
-    'nav.login': 'Login',
-    'login.title': 'Login',
-    'login.description': 'Sign in to find freelance opportunities',
-    'login.email': 'Email',
-    'login.password': 'Password',
-    'login.submit': 'Login',
-    'login.or': 'or',
-    'login.github': 'Login with GitHub',
-    'login.noAccount': "Don't have an account?",
-    'login.register': 'Register',
-  },
-  ja: {
-    'nav.jobs': '案件を探す',
-    'nav.freelancers': 'フリーランスを探す',
-    'nav.postJob': '案件を掲載',
-    'nav.login': 'ログイン',
-    'login.title': 'ログイン',
-    'login.description': 'アカウントにログインして、フリーランス案件を見つけましょう',
-    'login.email': 'メールアドレス',
-    'login.password': 'パスワード',
-    'login.submit': 'ログイン',
-    'login.or': 'または',
-    'login.github': 'GitHubでログイン',
-    'login.noAccount': 'アカウントをお持ちでない方は',
-    'login.register': '新規登録',
-  },
-};
-
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
-  const [language, setLanguage] = useState<Language>('ja');
+export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [language, setLanguage] = useState<Language>('en');
 
   const t = (key: string): string => {
-    return translations[language][key as keyof typeof translations.en] || key;
+    return translations[language][key] || key;
   };
 
   return (
@@ -59,7 +55,7 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
 
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
-  if (!context) {
+  if (context === undefined) {
     throw new Error('useLanguage must be used within a LanguageProvider');
   }
   return context;

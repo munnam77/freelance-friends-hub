@@ -1,103 +1,93 @@
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { ArrowRight, Clock, Building2, JapaneseYen } from "lucide-react";
-
-const jobs = [
-  {
-    id: 1,
-    title: "フルスタックエンジニア募集",
-    category: "フルスタック",
-    budget: "¥400,000 - ¥600,000",
-    description: "React、Node.js、PostgreSQLを使用したSaaSプラットフォームの開発。リモートワーク可能。",
-    company: "株式会社テックイノベーション",
-    location: "東京都",
-    postedAt: "2時間前",
-    skills: ["React", "Node.js", "PostgreSQL"],
-  },
-  {
-    id: 2,
-    title: "モバイルアプリ開発者",
-    category: "モバイル",
-    budget: "¥350,000 - ¥500,000",
-    description: "React Nativeを使用したクロスプラットフォームアプリの開発。UI/UXの実装経験必須。",
-    company: "グローバルアプリ株式会社",
-    location: "大阪府",
-    postedAt: "5時間前",
-    skills: ["React Native", "TypeScript", "Redux"],
-  },
-  {
-    id: 3,
-    title: "バックエンドエンジニア",
-    category: "バックエンド",
-    budget: "¥450,000 - ¥700,000",
-    description: "Python/Djangoを使用したRESTful APIの開発とビジネスロジックの実装。",
-    company: "テックスター株式会社",
-    location: "福岡県",
-    postedAt: "1日前",
-    skills: ["Python", "Django", "REST API"],
-  },
-];
+import { BadgeDollarSign, Briefcase, MapPin, Clock } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export const FeaturedJobs = () => {
+  const { t } = useLanguage();
+  
+  // This would later be fetched from an API/database
+  const featuredJobs = [
+    {
+      id: 1,
+      title: "Senior React Developer",
+      company: "TechCorp Inc.",
+      location: "Tokyo, Japan",
+      salary: "¥8M - ¥12M",
+      type: "Full-time",
+      posted: "2 days ago"
+    },
+    {
+      id: 2,
+      title: "Frontend Engineer",
+      company: "StartupX",
+      location: "Remote",
+      salary: "¥6M - ¥9M",
+      type: "Contract",
+      posted: "1 week ago"
+    },
+    {
+      id: 3,
+      title: "Full Stack Developer",
+      company: "Global Systems Ltd",
+      location: "Osaka, Japan",
+      salary: "¥7M - ¥10M",
+      type: "Full-time",
+      posted: "3 days ago"
+    }
+  ];
+
   return (
-    <section className="py-24">
+    <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center mb-12">
-          <div>
-            <h2 className="text-3xl font-bold mb-2">注目の案件</h2>
-            <p className="text-gray-600">最新のIT案件をチェック</p>
-          </div>
-          <Button variant="outline" asChild className="group">
-            <Link to="/jobs">
-              すべての案件を見る
-              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </Button>
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold mb-4">{t('featuredJobs.title')}</h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            {t('featuredJobs.description')}
+          </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {jobs.map((job) => (
-            <Card key={job.id} className="group hover:shadow-lg transition-all">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featuredJobs.map((job) => (
+            <Card key={job.id} className="hover:shadow-lg transition-shadow">
               <CardHeader>
-                <div className="flex justify-between items-start">
-                  <div>
-                    <CardTitle className="mb-2 group-hover:text-primary transition-colors">
-                      {job.title}
-                    </CardTitle>
-                    <div className="flex items-center gap-2 mb-2">
-                      <Building2 className="w-4 h-4 text-gray-500" />
-                      <span className="text-sm text-gray-600">{job.company}</span>
-                    </div>
-                    <Badge variant="secondary">{job.category}</Badge>
-                  </div>
-                  <Badge variant="outline" className="bg-primary/5 flex items-center gap-1">
-                    <JapaneseYen className="w-3 h-3" />
-                    {job.budget}
-                  </Badge>
-                </div>
+                <CardTitle className="text-xl">{job.title}</CardTitle>
+                <CardDescription>{job.company}</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600 mb-4">{job.description}</p>
-                <div className="flex flex-wrap gap-2">
-                  {job.skills.map((skill) => (
-                    <Badge key={skill} variant="secondary" className="bg-secondary/10">
-                      {skill}
-                    </Badge>
-                  ))}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <MapPin className="w-4 h-4" />
+                    <span>{job.location}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <BadgeDollarSign className="w-4 h-4" />
+                    <span>{job.salary}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <Briefcase className="w-4 h-4" />
+                    <span>{job.type}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <Clock className="w-4 h-4" />
+                    <span>{job.posted}</span>
+                  </div>
+                  <Button asChild className="w-full mt-4">
+                    <Link to={`/jobs/${job.id}`}>
+                      {t('featuredJobs.viewDetails')}
+                    </Link>
+                  </Button>
                 </div>
               </CardContent>
-              <CardFooter className="flex justify-between items-center">
-                <span className="text-sm text-gray-500 flex items-center gap-1">
-                  <Clock className="w-4 h-4" />
-                  {job.postedAt}
-                </span>
-                <Button asChild>
-                  <Link to={`/jobs/${job.id}`}>応募する</Link>
-                </Button>
-              </CardFooter>
             </Card>
           ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <Button asChild variant="outline" size="lg">
+            <Link to="/jobs">{t('featuredJobs.viewAll')}</Link>
+          </Button>
         </div>
       </div>
     </section>
