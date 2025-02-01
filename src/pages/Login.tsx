@@ -1,15 +1,19 @@
 import { useState } from "react";
-import { Navbar } from "@/components/Navbar";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Github } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { useToast } from "@/hooks/use-toast";
-import { useLanguage } from "@/contexts/LanguageContext";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -18,6 +22,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Mail, Lock, Github } from "lucide-react";
 
 const loginSchema = z.object({
   email: z.string().email({
@@ -32,7 +37,6 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { t } = useLanguage();
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -44,12 +48,9 @@ const Login = () => {
 
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
     setIsLoading(true);
-
     try {
-      // TODO: Implement actual authentication logic here
+      // TODO: Implement actual login logic here
       console.log("Logging in with:", values);
-      
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       toast({
@@ -70,80 +71,98 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
-      <main className="container mx-auto px-4 py-8">
-        <div className="max-w-md mx-auto">
-          <Card>
-            <CardHeader className="space-y-1">
-              <CardTitle className="text-2xl text-center">
-                {t('login.title')}
-              </CardTitle>
-              <CardDescription className="text-center">
-                {t('login.description')}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>メールアドレス</FormLabel>
-                        <FormControl>
-                          <Input placeholder="name@example.com" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>パスワード</FormLabel>
-                        <FormControl>
-                          <Input type="password" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button className="w-full" type="submit" disabled={isLoading}>
-                    {isLoading ? "ログイン中..." : t('login.submit')}
-                  </Button>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <Card className="w-full max-w-md">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl text-center font-bold">
+            ログイン
+          </CardTitle>
+          <CardDescription className="text-center">
+            アカウントにログインして、フリーランス案件を見つけましょう
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>メールアドレス</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                        <Input
+                          placeholder="name@example.com"
+                          className="pl-10"
+                          {...field}
+                        />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>パスワード</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                        <Input
+                          type="password"
+                          className="pl-10"
+                          {...field}
+                        />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button className="w-full" type="submit" disabled={isLoading}>
+                {isLoading ? "ログイン中..." : "ログイン"}
+              </Button>
+            </form>
+          </Form>
 
-                  <div className="relative">
-                    <div className="absolute inset-0 flex items-center">
-                      <span className="w-full border-t" />
-                    </div>
-                    <div className="relative flex justify-center text-xs uppercase">
-                      <span className="bg-card px-2 text-muted-foreground">
-                        {t('login.or')}
-                      </span>
-                    </div>
-                  </div>
+          <div className="relative my-4">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">
+                または
+              </span>
+            </div>
+          </div>
 
-                  <Button variant="outline" className="w-full gap-2" type="button">
-                    <Github className="w-4 h-4" />
-                    {t('login.github')}
-                  </Button>
-
-                  <div className="text-center text-sm">
-                    {t('login.noAccount')}{" "}
-                    <Link to="/register" className="text-primary hover:underline">
-                      {t('login.register')}
-                    </Link>
-                  </div>
-                </form>
-              </Form>
-            </CardContent>
-          </Card>
-        </div>
-      </main>
+          <Button variant="outline" className="w-full gap-2" type="button">
+            <Github className="h-5 w-5" />
+            GitHubでログイン
+          </Button>
+        </CardContent>
+        <CardFooter className="flex flex-col space-y-4">
+          <div className="text-sm text-center">
+            アカウントをお持ちでない方は{" "}
+            <Link
+              to="/register"
+              className="text-primary hover:underline font-medium"
+            >
+              新規登録
+            </Link>
+          </div>
+          <div className="text-sm text-center text-muted-foreground">
+            <Link to="/forgot-password" className="hover:underline">
+              パスワードをお忘れですか？
+            </Link>
+          </div>
+        </CardFooter>
+      </Card>
     </div>
   );
 };
