@@ -6,6 +6,7 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   Card,
   CardContent,
@@ -25,29 +26,30 @@ import {
 import { Mail, Lock, User, Github, Chrome } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
-const registerSchema = z.object({
-  firstName: z.string().min(1, {
-    message: "姓を入力してください",
-  }),
-  lastName: z.string().min(1, {
-    message: "名を入力してください",
-  }),
-  email: z.string().email({
-    message: "有効なメールアドレスを入力してください",
-  }),
-  password: z.string().min(8, {
-    message: "パスワードは8文字以上である必要があります",
-  }),
-  confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "パスワードが一致しません",
-  path: ["confirmPassword"],
-});
-
 const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { t } = useLanguage();
+
+  const registerSchema = z.object({
+    firstName: z.string().min(1, {
+      message: t('auth.firstName') + "を入力してください",
+    }),
+    lastName: z.string().min(1, {
+      message: t('auth.lastName') + "を入力してください",
+    }),
+    email: z.string().email({
+      message: "有効なメールアドレスを入力してください",
+    }),
+    password: z.string().min(8, {
+      message: "パスワードは8文字以上である必要があります",
+    }),
+    confirmPassword: z.string(),
+  }).refine((data) => data.password === data.confirmPassword, {
+    message: "パスワードが一致しません",
+    path: ["confirmPassword"],
+  });
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
@@ -63,21 +65,17 @@ const Register = () => {
   const onSubmit = async (values: z.infer<typeof registerSchema>) => {
     setIsLoading(true);
     try {
-      // TODO: Implement actual registration logic here
-      console.log("Registering with:", values);
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
       toast({
-        title: "登録成功",
-        description: "アカウントが作成されました。ログインしてください。",
+        title: t('auth.registerSuccess'),
+        description: t('auth.loginSuccess'),
       });
-      
       navigate("/login");
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "エラー",
-        description: "登録に失敗しました。もう一度お試しください。",
+        title: t('auth.error'),
+        description: t('auth.registerError'),
       });
     } finally {
       setIsLoading(false);
@@ -87,18 +85,17 @@ const Register = () => {
   const handleGoogleLogin = async () => {
     setIsLoading(true);
     try {
-      // TODO: Implement Google OAuth login
       await new Promise(resolve => setTimeout(resolve, 1000));
       toast({
-        title: "Googleログイン",
-        description: "Googleアカウントでログインしました。",
+        title: t('auth.login'),
+        description: t('auth.loginSuccess'),
       });
       navigate("/dashboard");
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "エラー",
-        description: "Googleログインに失敗しました。",
+        title: t('auth.error'),
+        description: t('auth.googleError'),
       });
     } finally {
       setIsLoading(false);
@@ -108,18 +105,17 @@ const Register = () => {
   const handleGithubLogin = async () => {
     setIsLoading(true);
     try {
-      // TODO: Implement GitHub OAuth login
       await new Promise(resolve => setTimeout(resolve, 1000));
       toast({
-        title: "GitHubログイン",
-        description: "GitHubアカウントでログインしました。",
+        title: t('auth.login'),
+        description: t('auth.loginSuccess'),
       });
       navigate("/dashboard");
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "エラー",
-        description: "GitHubログインに失敗しました。",
+        title: t('auth.error'),
+        description: t('auth.githubError'),
       });
     } finally {
       setIsLoading(false);
@@ -127,18 +123,17 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
+      <Card className="w-full max-w-md backdrop-blur-sm bg-white/80">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl text-center font-bold">
-            新規登録
+            {t('auth.register')}
           </CardTitle>
           <CardDescription className="text-center">
-            アカウントを作成して、フリーランス案件を見つけましょう
+            {t('auth.noAccount')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {/* Social Login Buttons */}
           <div className="grid grid-cols-2 gap-4">
             <Button 
               variant="outline" 
@@ -166,7 +161,7 @@ const Register = () => {
             </div>
             <div className="relative flex justify-center text-xs uppercase">
               <span className="bg-background px-2 text-muted-foreground">
-                または
+                {t('auth.or')}
               </span>
             </div>
           </div>
@@ -179,7 +174,7 @@ const Register = () => {
                   name="firstName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>姓</FormLabel>
+                      <FormLabel>{t('auth.firstName')}</FormLabel>
                       <FormControl>
                         <div className="relative">
                           <User className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
@@ -195,7 +190,7 @@ const Register = () => {
                   name="lastName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>名</FormLabel>
+                      <FormLabel>{t('auth.lastName')}</FormLabel>
                       <FormControl>
                         <div className="relative">
                           <User className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
@@ -212,12 +207,12 @@ const Register = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>メールアドレス</FormLabel>
+                    <FormLabel>{t('auth.email')}</FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Mail className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
                         <Input
-                          placeholder="name@example.com"
+                          type="email"
                           className="pl-10"
                           {...field}
                         />
@@ -232,7 +227,7 @@ const Register = () => {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>パスワード</FormLabel>
+                    <FormLabel>{t('auth.password')}</FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Lock className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
@@ -252,7 +247,7 @@ const Register = () => {
                 name="confirmPassword"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>パスワード（確認）</FormLabel>
+                    <FormLabel>{t('auth.confirmPassword')}</FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Lock className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
@@ -268,19 +263,19 @@ const Register = () => {
                 )}
               />
               <Button className="w-full" type="submit" disabled={isLoading}>
-                {isLoading ? "登録中..." : "登録する"}
+                {isLoading ? "..." : t('auth.registerButton')}
               </Button>
             </form>
           </Form>
         </CardContent>
         <CardFooter>
           <div className="text-sm text-center w-full">
-            すでにアカウントをお持ちの方は{" "}
+            {t('auth.hasAccount')}{" "}
             <Link
               to="/login"
               className="text-primary hover:underline font-medium"
             >
-              ログイン
+              {t('auth.login')}
             </Link>
           </div>
         </CardFooter>

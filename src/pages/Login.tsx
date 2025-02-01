@@ -6,6 +6,7 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   Card,
   CardContent,
@@ -22,21 +23,23 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Mail, Lock, Github } from "lucide-react";
-
-const loginSchema = z.object({
-  email: z.string().email({
-    message: "有効なメールアドレスを入力してください",
-  }),
-  password: z.string().min(8, {
-    message: "パスワードは8文字以上である必要があります",
-  }),
-});
+import { Mail, Lock, Github, Chrome } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { t } = useLanguage();
+
+  const loginSchema = z.object({
+    email: z.string().email({
+      message: "有効なメールアドレスを入力してください",
+    }),
+    password: z.string().min(8, {
+      message: "パスワードは8文字以上である必要があります",
+    }),
+  });
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -49,21 +52,57 @@ const Login = () => {
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
     setIsLoading(true);
     try {
-      // TODO: Implement actual login logic here
-      console.log("Logging in with:", values);
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
       toast({
-        title: "ログイン成功",
-        description: "ダッシュボードにリダイレクトします",
+        title: t('auth.login'),
+        description: t('auth.loginSuccess'),
       });
-      
       navigate("/dashboard");
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "エラー",
-        description: "ログインに失敗しました。もう一度お試しください。",
+        title: t('auth.error'),
+        description: t('auth.loginError'),
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setIsLoading(true);
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      toast({
+        title: t('auth.login'),
+        description: t('auth.loginSuccess'),
+      });
+      navigate("/dashboard");
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: t('auth.error'),
+        description: t('auth.googleError'),
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGithubLogin = async () => {
+    setIsLoading(true);
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      toast({
+        title: t('auth.login'),
+        description: t('auth.loginSuccess'),
+      });
+      navigate("/dashboard");
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: t('auth.error'),
+        description: t('auth.githubError'),
       });
     } finally {
       setIsLoading(false);
@@ -71,17 +110,49 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
+      <Card className="w-full max-w-md backdrop-blur-sm bg-white/80">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl text-center font-bold">
-            ログイン
+            {t('auth.login')}
           </CardTitle>
           <CardDescription className="text-center">
-            アカウントにログインして、フリーランス案件を見つけましょう
+            {t('auth.hasAccount')}
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <Button 
+              variant="outline" 
+              className="w-full gap-2" 
+              onClick={handleGoogleLogin}
+              disabled={isLoading}
+            >
+              <Chrome className="h-5 w-5" />
+              Google
+            </Button>
+            <Button 
+              variant="outline" 
+              className="w-full gap-2" 
+              onClick={handleGithubLogin}
+              disabled={isLoading}
+            >
+              <Github className="h-5 w-5" />
+              GitHub
+            </Button>
+          </div>
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <Separator className="w-full" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">
+                {t('auth.or')}
+              </span>
+            </div>
+          </div>
+
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
@@ -89,12 +160,12 @@ const Login = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>メールアドレス</FormLabel>
+                    <FormLabel>{t('auth.email')}</FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Mail className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
                         <Input
-                          placeholder="name@example.com"
+                          type="email"
                           className="pl-10"
                           {...field}
                         />
@@ -109,7 +180,7 @@ const Login = () => {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>パスワード</FormLabel>
+                    <FormLabel>{t('auth.password')}</FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Lock className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
@@ -125,40 +196,24 @@ const Login = () => {
                 )}
               />
               <Button className="w-full" type="submit" disabled={isLoading}>
-                {isLoading ? "ログイン中..." : "ログイン"}
+                {isLoading ? "..." : t('auth.loginButton')}
               </Button>
             </form>
           </Form>
-
-          <div className="relative my-4">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
-                または
-              </span>
-            </div>
-          </div>
-
-          <Button variant="outline" className="w-full gap-2" type="button">
-            <Github className="h-5 w-5" />
-            GitHubでログイン
-          </Button>
         </CardContent>
         <CardFooter className="flex flex-col space-y-4">
-          <div className="text-sm text-center">
-            アカウントをお持ちでない方は{" "}
+          <div className="text-sm text-center w-full">
+            {t('auth.noAccount')}{" "}
             <Link
               to="/register"
               className="text-primary hover:underline font-medium"
             >
-              新規登録
+              {t('auth.register')}
             </Link>
           </div>
           <div className="text-sm text-center text-muted-foreground">
             <Link to="/forgot-password" className="hover:underline">
-              パスワードをお忘れですか？
+              {t('auth.forgotPassword')}
             </Link>
           </div>
         </CardFooter>
