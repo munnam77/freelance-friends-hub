@@ -22,7 +22,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Mail, Lock, User, Github } from "lucide-react";
+import { Mail, Lock, User, Github, Chrome } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 const registerSchema = z.object({
   firstName: z.string().min(1, {
@@ -83,6 +84,48 @@ const Register = () => {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    setIsLoading(true);
+    try {
+      // TODO: Implement Google OAuth login
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      toast({
+        title: "Googleログイン",
+        description: "Googleアカウントでログインしました。",
+      });
+      navigate("/dashboard");
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "エラー",
+        description: "Googleログインに失敗しました。",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGithubLogin = async () => {
+    setIsLoading(true);
+    try {
+      // TODO: Implement GitHub OAuth login
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      toast({
+        title: "GitHubログイン",
+        description: "GitHubアカウントでログインしました。",
+      });
+      navigate("/dashboard");
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "エラー",
+        description: "GitHubログインに失敗しました。",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <Card className="w-full max-w-md">
@@ -94,7 +137,40 @@ const Register = () => {
             アカウントを作成して、フリーランス案件を見つけましょう
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-4">
+          {/* Social Login Buttons */}
+          <div className="grid grid-cols-2 gap-4">
+            <Button 
+              variant="outline" 
+              className="w-full gap-2" 
+              onClick={handleGoogleLogin}
+              disabled={isLoading}
+            >
+              <Chrome className="h-5 w-5" />
+              Google
+            </Button>
+            <Button 
+              variant="outline" 
+              className="w-full gap-2" 
+              onClick={handleGithubLogin}
+              disabled={isLoading}
+            >
+              <Github className="h-5 w-5" />
+              GitHub
+            </Button>
+          </div>
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <Separator className="w-full" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">
+                または
+              </span>
+            </div>
+          </div>
+
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
@@ -196,22 +272,6 @@ const Register = () => {
               </Button>
             </form>
           </Form>
-
-          <div className="relative my-4">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
-                または
-              </span>
-            </div>
-          </div>
-
-          <Button variant="outline" className="w-full gap-2" type="button">
-            <Github className="h-5 w-5" />
-            GitHubで登録
-          </Button>
         </CardContent>
         <CardFooter>
           <div className="text-sm text-center w-full">
