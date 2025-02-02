@@ -44,16 +44,25 @@ export const Hero = () => {
   ];
 
   return (
-    <div className="relative min-h-[90vh] overflow-hidden bg-gradient-to-br from-gray-50 via-white to-gray-50">
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.5)_100%)]" />
-      <div className="container relative mx-auto px-4 pt-20 pb-32">
+    <div className="relative min-h-[90vh] overflow-hidden">
+      <div 
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: "url('https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&q=80')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          filter: 'brightness(0.9)',
+        }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/80 to-background/95 backdrop-blur-sm" />
+      <div className="container relative z-10 mx-auto px-4 pt-20 pb-32">
         <div className="mx-auto max-w-4xl text-center">
           <Badge variant="outline" className="mb-8 bg-primary/5 text-primary backdrop-blur-sm">
             {language === 'en' 
               ? "Japan's Premier Tech Job Platform" 
               : "日本のプレミアテック求人プラットフォーム"}
           </Badge>
-          <h1 className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-5xl font-bold leading-tight text-transparent sm:text-6xl">
+          <h1 className="text-5xl font-bold leading-tight text-foreground sm:text-6xl">
             {language === 'en' ? (
               <>
                 Find Your Next
@@ -68,7 +77,7 @@ export const Hero = () => {
               </>
             )}
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-gray-600">
+          <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
             {language === 'en' 
               ? "Connect with leading technology companies and startups in Japan. Find remote and on-site opportunities that match your skills and aspirations."
               : "日本の主要テクノロジー企業やスタートアップとつながりましょう。あなたのスキルと目標に合ったリモートや現場での機会を見つけてください。"}
@@ -92,14 +101,14 @@ export const Hero = () => {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="group relative overflow-hidden rounded-xl bg-white/40 p-6 shadow-lg backdrop-blur-sm transition-all hover:bg-white/60 hover:shadow-xl"
+              className="group relative overflow-hidden rounded-xl bg-card-glass p-6 shadow-lg backdrop-blur-sm transition-all hover:shadow-xl"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
               <feature.icon className="mb-4 h-8 w-8 text-primary" />
               <h3 className="mb-2 text-xl font-semibold">
                 {language === 'en' ? feature.title.en : feature.title.ja}
               </h3>
-              <p className="text-gray-600">
+              <p className="text-muted-foreground">
                 {language === 'en' ? feature.description.en : feature.description.ja}
               </p>
             </div>
