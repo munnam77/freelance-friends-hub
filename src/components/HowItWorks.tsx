@@ -10,41 +10,41 @@ const steps = [
       ja: "案件を掲載",
     },
     description: {
-      en: "Post your job requirements and budget details for free.",
-      ja: "無料で案件を掲載できます。要件と予算を詳しく記載してください。",
+      en: "Share your project requirements and find the perfect match for your team.",
+      ja: "プロジェクトの要件を共有し、チームに最適な人材を見つけましょう。",
     },
   },
   {
     icon: Users,
     title: {
-      en: "Receive Proposals",
-      ja: "提案を受ける",
+      en: "Connect",
+      ja: "つながる",
     },
     description: {
-      en: "Get proposals from skilled engineers.",
-      ja: "熟練したエンジニアから提案を受け取ります。",
+      en: "Direct communication with qualified candidates.",
+      ja: "資格のある候補者と直接コミュニケーション。",
     },
   },
   {
     icon: Star,
     title: {
-      en: "Select the Best",
-      ja: "最適な人材を選択",
+      en: "Select",
+      ja: "選択",
     },
     description: {
-      en: "Review profiles, experience, and ratings to choose the best fit.",
-      ja: "プロフィール、実績、評価を確認して、最適な人材を選びましょう。",
+      en: "Choose the best talent based on skills and experience.",
+      ja: "スキルと経験に基づいて最高の人材を選びましょう。",
     },
   },
   {
     icon: Search,
     title: {
-      en: "Track Progress",
-      ja: "進捗管理",
+      en: "Track",
+      ja: "追跡",
     },
     description: {
-      en: "Monitor project progress and release payment upon completion.",
-      ja: "プロジェクトの進捗を確認し、完了後に支払いを行います。",
+      en: "Monitor progress and ensure project success.",
+      ja: "進捗を監視し、プロジェクトの成功を確実に。",
     },
   },
 ];
@@ -53,29 +53,33 @@ export const HowItWorks = () => {
   const { language } = useLanguage();
 
   return (
-    <section className="py-24 bg-gradient-to-b from-white via-gray-50 to-white">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-          {language === 'en' ? "How DevHub Works" : "DevHubの利用方法"}
-        </h2>
-        <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
-          {language === 'en' 
-            ? "Get started with your project in 4 simple steps" 
-            : "4つの簡単なステップで、あなたのプロジェクトを始めることができます"}
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <section className="relative overflow-hidden bg-gradient-to-b from-white via-gray-50 to-white py-24">
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.5)_100%)]" />
+      <div className="container relative mx-auto px-4">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-3xl font-bold text-transparent sm:text-4xl">
+            {language === 'en' ? "How It Works" : "ご利用の流れ"}
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-gray-600">
+            {language === 'en' 
+              ? "Your journey to finding the perfect tech opportunity in Japan starts here" 
+              : "日本での理想的なテック機会を見つける旅はここから始まります"}
+          </p>
+        </div>
+        
+        <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((step, index) => (
             <Card 
               key={index} 
-              className="group hover:shadow-lg transition-all duration-300 border-none bg-white/50 backdrop-blur-sm relative overflow-hidden"
+              className="group relative overflow-hidden border-none bg-white/50 backdrop-blur-sm transition-all duration-300 hover:bg-white/70 hover:shadow-lg"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-              <CardContent className="pt-6 relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+              <CardContent className="relative pt-6">
                 <div className="text-center">
-                  <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <step.icon className="w-8 h-8 text-primary" />
+                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 transition-transform group-hover:scale-110">
+                    <step.icon className="h-8 w-8 text-primary" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-2">
+                  <h3 className="mb-2 text-xl font-semibold">
                     {language === 'en' ? step.title.en : step.title.ja}
                   </h3>
                   <p className="text-gray-600">

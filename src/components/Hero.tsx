@@ -1,90 +1,109 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Search, Briefcase, Users } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export const Hero = () => {
   const { language } = useLanguage();
 
-  const benefits = [
+  const features = [
     {
-      en: "Industry-lowest commission rates",
-      ja: "業界最低水準の手数料",
+      icon: Search,
+      title: {
+        en: "Smart Search",
+        ja: "スマート検索",
+      },
+      description: {
+        en: "Find the perfect job match with our intelligent search",
+        ja: "インテリジェントな検索で最適な仕事を見つける",
+      },
     },
     {
-      en: "Secure transactions with escrow",
-      ja: "エスクローによる安全な取引",
+      icon: Briefcase,
+      title: {
+        en: "Latest Jobs",
+        ja: "最新の仕事",
+      },
+      description: {
+        en: "Access the newest opportunities from top companies",
+        ja: "トップ企業からの最新の機会にアクセス",
+      },
     },
     {
-      en: "24/7 support available",
-      ja: "24時間365日のサポート体制",
+      icon: Users,
+      title: {
+        en: "Direct Connect",
+        ja: "直接つながる",
+      },
+      description: {
+        en: "Connect directly with hiring managers",
+        ja: "採用担当者と直接つながる",
+      },
     },
   ];
 
   return (
-    <div className="relative overflow-hidden bg-gradient-to-br from-gray-50 via-white to-gray-50 py-32">
-      <div className="absolute inset-0 bg-grid-primary/5 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.5))]" />
-      <div className="container mx-auto px-4 relative">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="max-w-2xl animate-fade-in space-y-6">
-            <div className="flex items-center gap-2">
-              <Badge variant="outline" className="bg-primary/10 text-primary">
-                {language === 'en' 
-                  ? "Japan's Largest Freelance Marketplace" 
-                  : "日本最大級のフリーランス市場"}
-              </Badge>
-            </div>
-            <h1 className="text-5xl font-bold leading-tight bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              {language === 'en' ? (
-                <>
-                  Providing New Ways of Work
-                  <br />
-                  for Freelance Engineers
-                </>
-              ) : (
-                <>
-                  フリーランスエンジニアの
-                  <br />
-                  新しい働き方を提供
-                </>
-              )}
-            </h1>
-            <p className="text-xl text-gray-600">
-              {language === 'en' 
-                ? "DevHub is a platform that matches high-quality projects with engineers at low commission rates. We support your career in a safe and secure transaction environment."
-                : "DevHubは、低手数料で高品質な案件とエンジニアをマッチングするプラットフォームです。安心・安全な取引環境で、あなたのキャリアをサポートします。"}
-            </p>
-            <div className="space-y-4">
-              {benefits.map((benefit, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <CheckCircle2 className="text-primary w-5 h-5" />
-                  <span>{language === 'en' ? benefit.en : benefit.ja}</span>
-                </div>
-              ))}
-            </div>
-            <div className="flex gap-4 pt-4">
-              <Button size="lg" asChild className="group">
-                <Link to="/post-job">
-                  {language === 'en' ? "Post a Job" : "案件を掲載する"}
-                  <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </Button>
-              <Button size="lg" variant="outline" asChild>
-                <Link to="/jobs">
-                  {language === 'en' ? "Find Jobs" : "案件を探す"}
-                </Link>
-              </Button>
-            </div>
+    <div className="relative min-h-[90vh] overflow-hidden bg-gradient-to-br from-gray-50 via-white to-gray-50">
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.5)_100%)]" />
+      <div className="container relative mx-auto px-4 pt-20 pb-32">
+        <div className="mx-auto max-w-4xl text-center">
+          <Badge variant="outline" className="mb-8 bg-primary/5 text-primary backdrop-blur-sm">
+            {language === 'en' 
+              ? "Japan's Premier Tech Job Platform" 
+              : "日本のプレミアテック求人プラットフォーム"}
+          </Badge>
+          <h1 className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-5xl font-bold leading-tight text-transparent sm:text-6xl">
+            {language === 'en' ? (
+              <>
+                Find Your Next
+                <br />
+                Tech Opportunity in Japan
+              </>
+            ) : (
+              <>
+                日本での次なる
+                <br />
+                テック機会を見つけよう
+              </>
+            )}
+          </h1>
+          <p className="mx-auto mt-6 max-w-2xl text-lg text-gray-600">
+            {language === 'en' 
+              ? "Connect with leading technology companies and startups in Japan. Find remote and on-site opportunities that match your skills and aspirations."
+              : "日本の主要テクノロジー企業やスタートアップとつながりましょう。あなたのスキルと目標に合ったリモートや現場での機会を見つけてください。"}
+          </p>
+          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <Button size="lg" asChild className="group min-w-[200px]">
+              <Link to="/jobs">
+                {language === 'en' ? "Explore Jobs" : "仕事を探す"}
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </Button>
+            <Button size="lg" variant="outline" asChild className="min-w-[200px] backdrop-blur-sm">
+              <Link to="/post-job">
+                {language === 'en' ? "Post a Job" : "求人を掲載"}
+              </Link>
+            </Button>
           </div>
-          <div className="relative animate-fade-in">
-            <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent rounded-lg" />
-            <img
-              src="https://images.unsplash.com/photo-1497215728101-856f4ea42174"
-              alt={language === 'en' ? "Engineer working in office" : "オフィスで働くエンジニア"}
-              className="rounded-lg shadow-2xl"
-            />
-          </div>
+        </div>
+
+        <div className="mt-20 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {features.map((feature, index) => (
+            <div
+              key={index}
+              className="group relative overflow-hidden rounded-xl bg-white/40 p-6 shadow-lg backdrop-blur-sm transition-all hover:bg-white/60 hover:shadow-xl"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+              <feature.icon className="mb-4 h-8 w-8 text-primary" />
+              <h3 className="mb-2 text-xl font-semibold">
+                {language === 'en' ? feature.title.en : feature.title.ja}
+              </h3>
+              <p className="text-gray-600">
+                {language === 'en' ? feature.description.en : feature.description.ja}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
