@@ -58,7 +58,7 @@ const mockJobs: Job[] = [
       en: "Join our team as a Senior Frontend Engineer...",
       ja: "シニアフロントエンドエンジニアとして私たちのチームに参加...",
     },
-    skills: ["React", "TypeScript", "Next.js"],
+    skills: ["React", "TypeScript", "Next.js", "Node.js", "GraphQL"],
     postedAt: "2 days ago",
     source: "JapanDev",
   },
@@ -70,7 +70,7 @@ const mockJobs: Job[] = [
     },
     company: {
       name: "StartupX",
-      logo: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=48&h=48&auto=format&fit=crop",
+      logo: "https://images.unsplash.com/photo-1611162616305-c69b3037f77e?w=48&h=48&auto=format&fit=crop",
     },
     location: {
       en: "Remote (Japan)",
@@ -88,8 +88,68 @@ const mockJobs: Job[] = [
       en: "Looking for a Full Stack Developer...",
       ja: "フルスタック開発者を探しています...",
     },
-    skills: ["Node.js", "React", "MongoDB"],
+    skills: ["Node.js", "React", "MongoDB", "AWS", "Docker"],
     postedAt: "1 week ago",
+    source: "TokyoDev",
+  },
+  {
+    id: "3",
+    title: {
+      en: "UI/UX Designer",
+      ja: "UI/UXデザイナー",
+    },
+    company: {
+      name: "DesignLab Tokyo",
+      logo: "https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?w=48&h=48&auto=format&fit=crop",
+    },
+    location: {
+      en: "Osaka",
+      ja: "大阪",
+    },
+    salary: {
+      en: "¥5M - ¥8M/year",
+      ja: "¥500万 - ¥800万/年",
+    },
+    type: {
+      en: "Contract",
+      ja: "契約社員",
+    },
+    description: {
+      en: "Join our creative team as a UI/UX Designer...",
+      ja: "UIUXデザイナーとして私たちのクリエイティブチームに参加...",
+    },
+    skills: ["Figma", "Adobe XD", "Sketch", "User Research", "Prototyping"],
+    postedAt: "3 days ago",
+    source: "JapanDev",
+  },
+  {
+    id: "4",
+    title: {
+      en: "DevOps Engineer",
+      ja: "DevOpsエンジニア",
+    },
+    company: {
+      name: "CloudTech Solutions",
+      logo: "https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=48&h=48&auto=format&fit=crop",
+    },
+    location: {
+      en: "Tokyo",
+      ja: "東京",
+    },
+    salary: {
+      en: "¥7M - ¥11M/year",
+      ja: "¥700万 - ¥1,100万/年",
+    },
+    type: {
+      en: "Full-time",
+      ja: "正社員",
+    },
+    description: {
+      en: "Looking for an experienced DevOps Engineer...",
+      ja: "経験豊富なDevOpsエンジニアを募集...",
+    },
+    skills: ["Kubernetes", "AWS", "Docker", "CI/CD", "Terraform"],
+    postedAt: "5 days ago",
     source: "TokyoDev",
   },
 ];
