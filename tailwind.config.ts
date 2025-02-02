@@ -22,37 +22,38 @@ export default {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        background: "#FAFAF8",
+        foreground: "#141413",
         primary: {
-          DEFAULT: "#0066CC",
+          DEFAULT: "#8989DE",
           foreground: "#FFFFFF",
         },
         secondary: {
-          DEFAULT: "#00B2B2",
-          foreground: "#FFFFFF",
+          DEFAULT: "#E6E4DD",
+          foreground: "#3A3935",
         },
         accent: {
-          DEFAULT: "#FF6B35",
+          DEFAULT: "#61AAF2",
           foreground: "#FFFFFF",
         },
         muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          DEFAULT: "#F0EFEA",
+          foreground: "#605F5B",
         },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
+        subtle: {
+          DEFAULT: "#C4C3BB",
+          foreground: "#3A3935",
         },
         card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+          DEFAULT: "#FFFFFF",
+          foreground: "#141413",
         },
+        "card-glass": "rgba(255, 255, 255, 0.8)",
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        lg: "1rem",
+        md: "0.75rem",
+        sm: "0.5rem",
       },
       keyframes: {
         "accordion-down": {
@@ -72,6 +73,9 @@ export default {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         float: "float 3s ease-in-out infinite",
+      },
+      backdropBlur: {
+        xs: "2px",
       },
     },
   },
