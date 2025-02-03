@@ -1,12 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "react-router-dom";
-import { ExternalLink, Search } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useLatestJobs } from "@/services/jobService";
 import { useState } from "react";
 import { JobCard } from "./jobs/JobCard";
 import { JobSearch } from "./jobs/JobSearch";
+import { 
+  Card,
+  CardHeader,
+  CardContent,
+} from "@/components/ui/card";
 
 export const FeaturedJobs = () => {
   const { t, language } = useLanguage();
