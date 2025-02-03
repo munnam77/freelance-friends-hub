@@ -12,9 +12,11 @@ import {
   CardHeader,
   CardContent,
 } from "@/components/ui/card";
+import { useToast } from "@/components/ui/use-toast";
 
 export const FeaturedJobs = () => {
   const { t, language } = useLanguage();
+  const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const { data: jobs, isLoading, error } = useLatestJobs();
 
@@ -25,6 +27,12 @@ export const FeaturedJobs = () => {
   );
 
   if (error) {
+    // Show error toast
+    toast({
+      title: t('errors.failedToLoadJobs'),
+      variant: "destructive",
+    });
+    
     return (
       <div className="text-center text-red-500 py-8">
         {t('errors.failedToLoadJobs')}
