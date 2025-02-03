@@ -75,7 +75,7 @@ const fetchJobs = async (): Promise<Job[]> => {
         applyUrl: "https://tokyodev.com/jobs/1",
       },
       {
-        id: "2",
+        id: "jd-1",
         title: {
           en: "Full Stack Developer",
           ja: "フルスタック開発者",
@@ -102,11 +102,11 @@ const fetchJobs = async (): Promise<Job[]> => {
         },
         skills: ["Node.js", "React", "MongoDB", "AWS", "Docker"],
         postedAt: "1 week ago",
-        source: "TokyoDev",
-        applyUrl: "https://tokyodev.com/jobs/2",
+        source: "JapanDev",
+        applyUrl: "https://japandev.com/jobs/2",
       },
       {
-        id: "3",
+        id: "td-2",
         title: {
           en: "UI/UX Designer",
           ja: "UI/UXデザイナー",
@@ -133,47 +133,12 @@ const fetchJobs = async (): Promise<Job[]> => {
         },
         skills: ["Figma", "Adobe XD", "Sketch", "User Research", "Prototyping"],
         postedAt: "3 days ago",
-        source: "JapanDev",
-        applyUrl: "https://japandev.com/jobs/3",
-      },
-      {
-        id: "4",
-        title: {
-          en: "DevOps Engineer",
-          ja: "DevOpsエンジニア",
-        },
-        company: {
-          name: "CloudTech Solutions",
-          logo: "https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=48&h=48&auto=format&fit=crop",
-        },
-        location: {
-          en: "Tokyo",
-          ja: "東京",
-        },
-        salary: {
-          en: "¥7M - ¥11M/year",
-          ja: "¥700万 - ¥1,100万/年",
-        },
-        type: {
-          en: "Full-time",
-          ja: "正社員",
-        },
-        description: {
-          en: "Looking for an experienced DevOps Engineer...",
-          ja: "経験豊富なDevOpsエンジニアを募集...",
-        },
-        skills: ["Kubernetes", "AWS", "Docker", "CI/CD", "Terraform"],
-        postedAt: "5 days ago",
         source: "TokyoDev",
-        applyUrl: "https://tokyodev.com/jobs/4",
-      },
+        applyUrl: "https://tokyodev.com/jobs/3",
+      }
     ];
 
-    // Filter jobs posted within the last 10 days
-    return mockJobs.filter(job => {
-      const postedDate = new Date(job.postedAt);
-      return postedDate >= tenDaysAgo;
-    });
+    return mockJobs;
   } catch (error) {
     console.error("Error fetching jobs:", error);
     throw error;
@@ -186,31 +151,5 @@ export const useLatestJobs = () => {
     queryFn: fetchJobs,
     staleTime: 1000 * 60 * 60, // 1 hour
     refetchInterval: 1000 * 60 * 60, // Refetch every hour
-  });
-};
-
-// New hook for filtered jobs
-export const useFilteredJobs = (filters: {
-  search?: string;
-  source?: string;
-  type?: string;
-}) => {
-  return useQuery({
-    queryKey: ['filteredJobs', filters],
-    queryFn: async () => {
-      const jobs = await fetchJobs();
-      return jobs.filter(job => {
-        const matchesSearch = !filters.search || 
-          job.title.en.toLowerCase().includes(filters.search.toLowerCase()) ||
-          job.title.ja.includes(filters.search) ||
-          job.company.name.toLowerCase().includes(filters.search.toLowerCase());
-        
-        const matchesSource = !filters.source || job.source === filters.source;
-        const matchesType = !filters.type || job.type.en === filters.type;
-        
-        return matchesSearch && matchesSource && matchesType;
-      });
-    },
-    staleTime: 1000 * 60 * 60, // 1 hour
   });
 };
