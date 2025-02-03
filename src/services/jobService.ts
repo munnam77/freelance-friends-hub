@@ -1,154 +1,24 @@
 import { useQuery } from "@tanstack/react-query";
-
-export interface Job {
-  id: string;
-  title: {
-    en: string;
-    ja: string;
-  };
-  company: {
-    name: string;
-    logo?: string;
-  };
-  location: {
-    en: string;
-    ja: string;
-  };
-  salary: {
-    en: string;
-    ja: string;
-  };
-  type: {
-    en: string;
-    ja: string;
-  };
-  description: {
-    en: string;
-    ja: string;
-  };
-  skills: string[];
-  postedAt: string;
-  source: "JapanDev" | "TokyoDev";
-  applyUrl: string;
-}
-
-// Fetch jobs from multiple sources
-const fetchJobs = async (): Promise<Job[]> => {
-  try {
-    // In a real implementation, this would fetch from actual APIs
-    // For now, using mock data with realistic timestamps
-    const tenDaysAgo = new Date();
-    tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
-    
-    console.log("Fetching jobs...");
-    
-    const mockJobs: Job[] = [
-      {
-        id: "td-1",
-        title: {
-          en: "Senior Frontend Engineer",
-          ja: "シニアフロントエンドエンジニア",
-        },
-        company: {
-          name: "TechCorp Japan",
-          logo: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=48&h=48&auto=format&fit=crop",
-        },
-        location: {
-          en: "Tokyo (Hybrid)",
-          ja: "東京（ハイブリッド）",
-        },
-        salary: {
-          en: "¥8M - ¥12M/year",
-          ja: "¥800万 - ¥1,200万/年",
-        },
-        type: {
-          en: "Full-time",
-          ja: "正社員",
-        },
-        description: {
-          en: "Join our team as a Senior Frontend Engineer...",
-          ja: "シニアフロントエンドエンジニアとして私たちのチームに参加...",
-        },
-        skills: ["React", "TypeScript", "Next.js", "Node.js", "GraphQL"],
-        postedAt: "2 days ago",
-        source: "TokyoDev",
-        applyUrl: "https://tokyodev.com/jobs/1",
-      },
-      {
-        id: "jd-1",
-        title: {
-          en: "Full Stack Developer",
-          ja: "フルスタック開発者",
-        },
-        company: {
-          name: "StartupX",
-          logo: "https://images.unsplash.com/photo-1611162616305-c69b3037f77e?w=48&h=48&auto=format&fit=crop",
-        },
-        location: {
-          en: "Remote (Japan)",
-          ja: "リモート（日本）",
-        },
-        salary: {
-          en: "¥6M - ¥10M/year",
-          ja: "¥600万 - ¥1,000万/年",
-        },
-        type: {
-          en: "Full-time",
-          ja: "正社員",
-        },
-        description: {
-          en: "Looking for a Full Stack Developer...",
-          ja: "フルスタック開発者を探しています...",
-        },
-        skills: ["Node.js", "React", "MongoDB", "AWS", "Docker"],
-        postedAt: "1 week ago",
-        source: "JapanDev",
-        applyUrl: "https://japandev.com/jobs/2",
-      },
-      {
-        id: "td-2",
-        title: {
-          en: "UI/UX Designer",
-          ja: "UI/UXデザイナー",
-        },
-        company: {
-          name: "DesignLab Tokyo",
-          logo: "https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?w=48&h=48&auto=format&fit=crop",
-        },
-        location: {
-          en: "Osaka",
-          ja: "大阪",
-        },
-        salary: {
-          en: "¥5M - ¥8M/year",
-          ja: "¥500万 - ¥800万/年",
-        },
-        type: {
-          en: "Contract",
-          ja: "契約社員",
-        },
-        description: {
-          en: "Join our creative team as a UI/UX Designer...",
-          ja: "UIUXデザイナーとして私たちのクリエイティブチームに参加...",
-        },
-        skills: ["Figma", "Adobe XD", "Sketch", "User Research", "Prototyping"],
-        postedAt: "3 days ago",
-        source: "TokyoDev",
-        applyUrl: "https://tokyodev.com/jobs/3",
-      }
-    ];
-
-    return mockJobs;
-  } catch (error) {
-    console.error("Error fetching jobs:", error);
-    throw error;
-  }
-};
+import { fetchTokyoDevJobs } from "./api/tokyoDevApi";
+import { fetchJapanDevJobs } from "./api/japanDevApi";
+import { Job } from "@/types/job";
 
 export const useLatestJobs = () => {
   return useQuery({
     queryKey: ['latestJobs'],
-    queryFn: fetchJobs,
+    queryFn: async (): Promise<Job[]> => {
+      const [tokyoDevJobs, japanDevJobs] = await Promise.all([
+        fetchTokyoDevJobs(),
+        fetchJapanDevJobs(),
+      ]);
+
+      // Combine and sort jobs by posted date
+      const allJobs = [...tokyoDevJobs, ...japanDevJobs].sort((a, b) => 
+        new Date(b.postedAt).getTime() - new Date(a.postedAt).getTime()
+      );
+
+      return allJobs;
+    },
     staleTime: 1000 * 60 * 60, // 1 hour
     refetchInterval: 1000 * 60 * 60, // Refetch every hour
   });
