@@ -1,6 +1,8 @@
-import { Briefcase, Search, Star, Users } from "lucide-react";
+import { Briefcase, Search, Star, Users, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { Button } from "./ui/button";
+import { Link } from "react-router-dom";
 
 const steps = [
   {
@@ -53,14 +55,14 @@ export const HowItWorks = () => {
   const { language } = useLanguage();
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-white via-gray-50 to-white py-24">
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.5)_100%)]" />
+    <section className="relative overflow-hidden bg-gradient-to-b from-background via-primary/5 to-background py-24">
+      <div className="absolute inset-0 bg-grid-primary/5 [mask-image:linear-gradient(0deg,transparent,black)]" />
       <div className="container relative mx-auto px-4">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-3xl font-bold text-transparent sm:text-4xl">
+          <h2 className="text-3xl font-bold sm:text-4xl bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
             {language === 'en' ? "How It Works" : "ご利用の流れ"}
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-gray-600">
+          <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
             {language === 'en' 
               ? "Your journey to finding the perfect tech opportunity in Japan starts here" 
               : "日本での理想的なテック機会を見つける旅はここから始まります"}
@@ -71,7 +73,8 @@ export const HowItWorks = () => {
           {steps.map((step, index) => (
             <Card 
               key={index} 
-              className="group relative overflow-hidden border-none bg-white/50 backdrop-blur-sm transition-all duration-300 hover:bg-white/70 hover:shadow-lg"
+              className="group relative overflow-hidden border-primary/10 bg-card-glass backdrop-blur-sm transition-all duration-300 hover:shadow-lg animate-fade-up"
+              style={{ animationDelay: `${index * 100}ms` }}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
               <CardContent className="relative pt-6">
@@ -82,13 +85,26 @@ export const HowItWorks = () => {
                   <h3 className="mb-2 text-xl font-semibold">
                     {language === 'en' ? step.title.en : step.title.ja}
                   </h3>
-                  <p className="text-gray-600">
+                  <p className="text-muted-foreground">
                     {language === 'en' ? step.description.en : step.description.ja}
                   </p>
                 </div>
               </CardContent>
             </Card>
           ))}
+        </div>
+
+        <div className="mt-16 text-center">
+          <Button 
+            asChild 
+            size="lg"
+            className="group bg-primary hover:bg-primary/90"
+          >
+            <Link to="/register" className="gap-2">
+              {language === 'en' ? "Get Started Now" : "今すぐ始める"}
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </Button>
         </div>
       </div>
     </section>

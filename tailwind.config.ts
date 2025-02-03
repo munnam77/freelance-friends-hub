@@ -22,33 +22,33 @@ export default {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "#FAFAF8",
-        foreground: "#141413",
+        background: "#F8FAFC",
+        foreground: "#0F172A",
         primary: {
-          DEFAULT: "#8989DE",
+          DEFAULT: "#6366F1",
           foreground: "#FFFFFF",
         },
         secondary: {
-          DEFAULT: "#E6E4DD",
-          foreground: "#3A3935",
+          DEFAULT: "#F1F5F9",
+          foreground: "#334155",
         },
         accent: {
-          DEFAULT: "#61AAF2",
+          DEFAULT: "#38BDF8",
           foreground: "#FFFFFF",
         },
         muted: {
-          DEFAULT: "#F0EFEA",
-          foreground: "#605F5B",
+          DEFAULT: "#F1F5F9",
+          foreground: "#64748B",
         },
         subtle: {
-          DEFAULT: "#C4C3BB",
-          foreground: "#3A3935",
+          DEFAULT: "#CBD5E1",
+          foreground: "#334155",
         },
         card: {
           DEFAULT: "#FFFFFF",
-          foreground: "#141413",
+          foreground: "#0F172A",
         },
-        "card-glass": "rgba(255, 255, 255, 0.8)",
+        "card-glass": "rgba(255, 255, 255, 0.9)",
       },
       borderRadius: {
         lg: "1rem",
@@ -68,11 +68,16 @@ export default {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-5px)" },
         },
+        "fade-up": {
+          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         float: "float 3s ease-in-out infinite",
+        "fade-up": "fade-up 0.5s ease-out forwards",
       },
       backdropBlur: {
         xs: "2px",
