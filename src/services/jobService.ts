@@ -28,40 +28,52 @@ export interface Job {
   };
   skills: string[];
   postedAt: string;
-  source: string;
+  source: "JapanDev" | "TokyoDev";
+  applyUrl: string;
 }
 
-const mockJobs: Job[] = [
-  {
-    id: "1",
-    title: {
-      en: "Senior Frontend Engineer",
-      ja: "シニアフロントエンドエンジニア",
-    },
-    company: {
-      name: "TechCorp Japan",
-      logo: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=48&h=48&auto=format&fit=crop",
-    },
-    location: {
-      en: "Tokyo (Hybrid)",
-      ja: "東京（ハイブリッド）",
-    },
-    salary: {
-      en: "¥8M - ¥12M/year",
-      ja: "¥800万 - ¥1,200万/年",
-    },
-    type: {
-      en: "Full-time",
-      ja: "正社員",
-    },
-    description: {
-      en: "Join our team as a Senior Frontend Engineer...",
-      ja: "シニアフロントエンドエンジニアとして私たちのチームに参加...",
-    },
-    skills: ["React", "TypeScript", "Next.js", "Node.js", "GraphQL"],
-    postedAt: "2 days ago",
-    source: "JapanDev",
-  },
+// Fetch jobs from multiple sources
+const fetchJobs = async (): Promise<Job[]> => {
+  try {
+    // In a real implementation, this would fetch from actual APIs
+    // For now, using mock data with realistic timestamps
+    const tenDaysAgo = new Date();
+    tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
+    
+    console.log("Fetching jobs...");
+    
+    const mockJobs: Job[] = [
+      {
+        id: "td-1",
+        title: {
+          en: "Senior Frontend Engineer",
+          ja: "シニアフロントエンドエンジニア",
+        },
+        company: {
+          name: "TechCorp Japan",
+          logo: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=48&h=48&auto=format&fit=crop",
+        },
+        location: {
+          en: "Tokyo (Hybrid)",
+          ja: "東京（ハイブリッド）",
+        },
+        salary: {
+          en: "¥8M - ¥12M/year",
+          ja: "¥800万 - ¥1,200万/年",
+        },
+        type: {
+          en: "Full-time",
+          ja: "正社員",
+        },
+        description: {
+          en: "Join our team as a Senior Frontend Engineer...",
+          ja: "シニアフロントエンドエンジニアとして私たちのチームに参加...",
+        },
+        skills: ["React", "TypeScript", "Next.js", "Node.js", "GraphQL"],
+        postedAt: "2 days ago",
+        source: "TokyoDev",
+        applyUrl: "https://tokyodev.com/jobs/1",
+      },
   {
     id: "2",
     title: {
@@ -152,22 +164,50 @@ const mockJobs: Job[] = [
     postedAt: "5 days ago",
     source: "TokyoDev",
   },
-];
+    ];
 
-const fetchLatestJobs = async (): Promise<Job[]> => {
-  // In a real implementation, this would fetch from multiple job sites
-  // For now, we'll return mock data
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(mockJobs);
-    }, 1000);
-  });
+    // Filter jobs posted within the last 10 days
+    return mockJobs.filter(job => {
+      const postedDate = new Date(job.postedAt);
+      return postedDate >= tenDaysAgo;
+    });
+  } catch (error) {
+    console.error("Error fetching jobs:", error);
+    throw error;
+  }
 };
 
 export const useLatestJobs = () => {
   return useQuery({
     queryKey: ['latestJobs'],
-    queryFn: fetchLatestJobs,
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    queryFn: fetchJobs,
+    staleTime: 1000 * 60 * 60, // 1 hour
+    refetchInterval: 1000 * 60 * 60, // Refetch every hour
+  });
+};
+
+// New hook for filtered jobs
+export const useFilteredJobs = (filters: {
+  search?: string;
+  source?: string;
+  type?: string;
+}) => {
+  return useQuery({
+    queryKey: ['filteredJobs', filters],
+    queryFn: async () => {
+      const jobs = await fetchJobs();
+      return jobs.filter(job => {
+        const matchesSearch = !filters.search || 
+          job.title.en.toLowerCase().includes(filters.search.toLowerCase()) ||
+          job.title.ja.includes(filters.search) ||
+          job.company.name.toLowerCase().includes(filters.search.toLowerCase());
+        
+        const matchesSource = !filters.source || job.source === filters.source;
+        const matchesType = !filters.type || job.type.en === filters.type;
+        
+        return matchesSearch && matchesSource && matchesType;
+      });
+    },
+    staleTime: 1000 * 60 * 60, // 1 hour
   });
 };
