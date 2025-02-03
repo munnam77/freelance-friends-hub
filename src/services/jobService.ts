@@ -74,96 +74,99 @@ const fetchJobs = async (): Promise<Job[]> => {
         source: "TokyoDev",
         applyUrl: "https://tokyodev.com/jobs/1",
       },
-  {
-    id: "2",
-    title: {
-      en: "Full Stack Developer",
-      ja: "フルスタック開発者",
-    },
-    company: {
-      name: "StartupX",
-      logo: "https://images.unsplash.com/photo-1611162616305-c69b3037f77e?w=48&h=48&auto=format&fit=crop",
-    },
-    location: {
-      en: "Remote (Japan)",
-      ja: "リモート（日本）",
-    },
-    salary: {
-      en: "¥6M - ¥10M/year",
-      ja: "¥600万 - ¥1,000万/年",
-    },
-    type: {
-      en: "Full-time",
-      ja: "正社員",
-    },
-    description: {
-      en: "Looking for a Full Stack Developer...",
-      ja: "フルスタック開発者を探しています...",
-    },
-    skills: ["Node.js", "React", "MongoDB", "AWS", "Docker"],
-    postedAt: "1 week ago",
-    source: "TokyoDev",
-  },
-  {
-    id: "3",
-    title: {
-      en: "UI/UX Designer",
-      ja: "UI/UXデザイナー",
-    },
-    company: {
-      name: "DesignLab Tokyo",
-      logo: "https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?w=48&h=48&auto=format&fit=crop",
-    },
-    location: {
-      en: "Osaka",
-      ja: "大阪",
-    },
-    salary: {
-      en: "¥5M - ¥8M/year",
-      ja: "¥500万 - ¥800万/年",
-    },
-    type: {
-      en: "Contract",
-      ja: "契約社員",
-    },
-    description: {
-      en: "Join our creative team as a UI/UX Designer...",
-      ja: "UIUXデザイナーとして私たちのクリエイティブチームに参加...",
-    },
-    skills: ["Figma", "Adobe XD", "Sketch", "User Research", "Prototyping"],
-    postedAt: "3 days ago",
-    source: "JapanDev",
-  },
-  {
-    id: "4",
-    title: {
-      en: "DevOps Engineer",
-      ja: "DevOpsエンジニア",
-    },
-    company: {
-      name: "CloudTech Solutions",
-      logo: "https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=48&h=48&auto=format&fit=crop",
-    },
-    location: {
-      en: "Tokyo",
-      ja: "東京",
-    },
-    salary: {
-      en: "¥7M - ¥11M/year",
-      ja: "¥700万 - ¥1,100万/年",
-    },
-    type: {
-      en: "Full-time",
-      ja: "正社員",
-    },
-    description: {
-      en: "Looking for an experienced DevOps Engineer...",
-      ja: "経験豊富なDevOpsエンジニアを募集...",
-    },
-    skills: ["Kubernetes", "AWS", "Docker", "CI/CD", "Terraform"],
-    postedAt: "5 days ago",
-    source: "TokyoDev",
-  },
+      {
+        id: "2",
+        title: {
+          en: "Full Stack Developer",
+          ja: "フルスタック開発者",
+        },
+        company: {
+          name: "StartupX",
+          logo: "https://images.unsplash.com/photo-1611162616305-c69b3037f77e?w=48&h=48&auto=format&fit=crop",
+        },
+        location: {
+          en: "Remote (Japan)",
+          ja: "リモート（日本）",
+        },
+        salary: {
+          en: "¥6M - ¥10M/year",
+          ja: "¥600万 - ¥1,000万/年",
+        },
+        type: {
+          en: "Full-time",
+          ja: "正社員",
+        },
+        description: {
+          en: "Looking for a Full Stack Developer...",
+          ja: "フルスタック開発者を探しています...",
+        },
+        skills: ["Node.js", "React", "MongoDB", "AWS", "Docker"],
+        postedAt: "1 week ago",
+        source: "TokyoDev",
+        applyUrl: "https://tokyodev.com/jobs/2",
+      },
+      {
+        id: "3",
+        title: {
+          en: "UI/UX Designer",
+          ja: "UI/UXデザイナー",
+        },
+        company: {
+          name: "DesignLab Tokyo",
+          logo: "https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?w=48&h=48&auto=format&fit=crop",
+        },
+        location: {
+          en: "Osaka",
+          ja: "大阪",
+        },
+        salary: {
+          en: "¥5M - ¥8M/year",
+          ja: "¥500万 - ¥800万/年",
+        },
+        type: {
+          en: "Contract",
+          ja: "契約社員",
+        },
+        description: {
+          en: "Join our creative team as a UI/UX Designer...",
+          ja: "UIUXデザイナーとして私たちのクリエイティブチームに参加...",
+        },
+        skills: ["Figma", "Adobe XD", "Sketch", "User Research", "Prototyping"],
+        postedAt: "3 days ago",
+        source: "JapanDev",
+        applyUrl: "https://japandev.com/jobs/3",
+      },
+      {
+        id: "4",
+        title: {
+          en: "DevOps Engineer",
+          ja: "DevOpsエンジニア",
+        },
+        company: {
+          name: "CloudTech Solutions",
+          logo: "https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=48&h=48&auto=format&fit=crop",
+        },
+        location: {
+          en: "Tokyo",
+          ja: "東京",
+        },
+        salary: {
+          en: "¥7M - ¥11M/year",
+          ja: "¥700万 - ¥1,100万/年",
+        },
+        type: {
+          en: "Full-time",
+          ja: "正社員",
+        },
+        description: {
+          en: "Looking for an experienced DevOps Engineer...",
+          ja: "経験豊富なDevOpsエンジニアを募集...",
+        },
+        skills: ["Kubernetes", "AWS", "Docker", "CI/CD", "Terraform"],
+        postedAt: "5 days ago",
+        source: "TokyoDev",
+        applyUrl: "https://tokyodev.com/jobs/4",
+      },
     ];
 
     // Filter jobs posted within the last 10 days
